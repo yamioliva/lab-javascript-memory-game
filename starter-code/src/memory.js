@@ -1,33 +1,31 @@
-var MemoryGame = function(cards) {
+var MemoryGame = function (cards) {
   this.cards = cards;
+  this.pickedCards  = [];
   this.pairsClicked = 0;
   this.pairsGuessed = 0;
-  this.pickedCards = [];
+  this.cards = this.shuffleCard(cards);
 };
 
-MemoryGame.prototype.shuffleCards = function() {
-  var array = this.cards.length;
-  while (array) {
-    var i = Math.floor(Math.random() * array--);
-    var t = this.cards[array];
-    this.cards[array] = this.cards[i];
-    this.cards[i] = t;
+MemoryGame.prototype.shuffleCard = function (cardsArr) {
+  var counter = cardsArr.length;
+  while (counter > 0) {
+    index = Math.floor(Math.random() * counter);
+    counter--;
+    temp = cardsArr[counter];
+    cardsArr[counter] = cardsArr[index];
+    cardsArr[index] = temp;
   }
+  return cardsArr;
 };
 
-MemoryGame.prototype.checkIfPair = function(firstCard, secondCard) {
-  this.pairsClicked += 1;
-  if (firstCard == secondCard) {
-    this.pairsGuessed++;
-    return true;
+MemoryGame.prototype.checkIfPair = function (firstCard, secondCard) {
+  this.pairsClicked++;
+  if (firstCard === secondCard) {
+    memoryGame.pairsGuessed++;
   }
-  return false;
-};
+  return firstCard === secondCard;
+}
 
-MemoryGame.prototype.isFinished = function() {
-  if (this.pairsGuessed  == this.cards.length/2) {
-    return true;
-  } else {
-    return false;
-  }
+MemoryGame.prototype.finished = function () {
+  return this.pairsGuessed === 12;
 };
